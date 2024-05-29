@@ -63,10 +63,11 @@ class DatabaseHelper:
         print("Database validation passed.")
         return True
 
-    def insert_ride(self, ride):
+    def insert_rides(self, rides):
         try:
+            for ride in rides:
 
-            self.cursor.execute('''
+                self.cursor.execute('''
                                 INSERT INTO rides (land_id, ride_id, name, is_open, wait_time, last_updated)
                                 VALUES (?, ?, ?, ?, ?, ?)
                                 ''', ride)
@@ -74,10 +75,8 @@ class DatabaseHelper:
 
         except sqlite3.Error as e:
             print(f"Error inserting ride: {e}")
+            return
 
-    def insert_list(self, rides):
-        for ride in rides:
-            self.insert_ride(ride)
 
     def print_table(self, table):
         # Get column names
@@ -93,5 +92,15 @@ class DatabaseHelper:
             print(', '.join(map(str, row)))
 
     def execute_query(self, query):
-        # Code to execute custom SQL queries
         pass
+
+    def fetch_ride_by_id(self, ride_id):
+        self.cursor.execute("SELECT * FROM rides WHERE ride_id = ?", (ride_id,))
+        return self.cursor.fetchall()
+
+    def fetch_ride_ids_and_names(self):
+        self.cursor.execute("SELECT DISTINCT ride_id, name FROM rides")
+        return self.cursor.fetchall()
+
+    def close(self):
+        self.conn.close()

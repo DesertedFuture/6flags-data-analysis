@@ -1,8 +1,11 @@
 import sqlite3
+from enum import Enum
 
-# maybe i make a list of the rides i care about
-# loop over and do functions over it
+# grab relevant data for a ride
+# sort data?
 
-# wait times
-# how long are down for is the import thing
+rides = Enum('name', ['val1', 'val2'])
 
+
+class Operations:
+    def __init__():
