@@ -1,8 +1,8 @@
-#!/usr/bin/env python4
+#!/usr/bin/env python3
 
 from database_helper import DatabaseHelper
 from ride_api_call import APIClient
-
+from DataAnalyzer import DataAnalyzer
 
 class Main:
     def create_url(self, url_pre, land_id, url_suff):
@@ -15,6 +15,7 @@ class Main:
         self.url = self.create_url(url_pre, land_id, url_suff)
         self.db_helper = DatabaseHelper("amusement_park.db")
         self.api_client = APIClient(self.url)
+        self.data_analyzer = DataAnalyzer("amusement_park.db")
 
     def main(self):
         print("start of main")
@@ -26,8 +27,8 @@ class Main:
             print("4. Print specific ride data")
             print("5. Quit")
             print("6. Create / Validate Database")
-            print("x. Maybe delete database from bad values? ")
-            print("x. maybe operations menu to do operations on specific data ")
+            print("7. AVerage_wait times")
+            print("8. wait time trends")
             # print("x.  ")
 
             choice = input("Enter your choice: ")
@@ -49,6 +50,11 @@ class Main:
             elif choice == "6":
                 self.db_helper.create_database()
                 self.db_helper.validate_database()
+            elif choice == "7":
+                print(self.data_analyzer.average_wait_time())
+            elif choice == "8":
+                print(self.data_analyzer.wait_time_trends())
+                
             else:
                 print("Invalid choice. Please try again.")
 
